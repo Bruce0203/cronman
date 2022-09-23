@@ -26,7 +26,11 @@ class Plugin : JavaPlugin() {
 
     private fun registerScheduler(cronString: String, cmd: String) {
         Scheduler().apply {
-            schedule(cronString) { Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd) }
+            schedule(cronString) {
+                Bukkit.getScheduler().runTask(this@Plugin , Runnable {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd)
+                })
+            }
 //            val descriptor: CronDescriptor = CronDescriptor.instance(Locale.KOREAN)
 //            val parser = CronParser(CronDefinitionBuilder.instanceDefinitionFor(QUARTZ))
 //            val description: String = descriptor.describe(parser.parse(cronString))

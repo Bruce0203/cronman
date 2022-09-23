@@ -31,10 +31,11 @@ class Plugin : JavaPlugin() {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd)
                 })
             }
-//            val descriptor: CronDescriptor = CronDescriptor.instance(Locale.KOREAN)
-//            val parser = CronParser(CronDefinitionBuilder.instanceDefinitionFor(QUARTZ))
-//            val description: String = descriptor.describe(parser.parse(cronString))
-//            logger.info("[$description]: $cmd")
+            val description: String = CronDescriptor.instance(Locale.KOREAN)
+                .describe(
+                    CronParser(CronDefinitionBuilder.instanceDefinitionFor(QUARTZ))
+                        .parse(cronString))
+            logger.info("[$description]: $cmd")
             start()
             schedulers.add(this)
         }

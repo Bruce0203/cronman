@@ -1,0 +1,5 @@
+name: cronman
+version: Build 1
+main: io.github.bruce0203.cronman.Plugin
+libraries:
+  - org.jetbrains.kotlin:kotlin-stdlib:1.6.10

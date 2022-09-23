@@ -35,6 +35,7 @@ class Plugin : JavaPlugin() {
             val description: String = descriptor.describe(parser.parse(cronString))
             logger.info("[$description]: $cmd")
             start()
+            schedulers.add(this)
         }
     }
 

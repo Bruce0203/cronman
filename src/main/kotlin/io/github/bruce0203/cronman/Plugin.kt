@@ -16,10 +16,7 @@ class Plugin : JavaPlugin() {
 
     override fun onEnable() {
         loadDefaultConfig()
-        config.getKeys(false).forEach { key ->
-            val cmd = config.getString(key)!!
-            registerScheduler(key, cmd)
-        }
+        config.getKeys(false).forEach { key -> registerScheduler(key, config.getString(key)!!) }
     }
 
     private fun loadDefaultConfig() {
@@ -30,10 +27,10 @@ class Plugin : JavaPlugin() {
     private fun registerScheduler(cronString: String, cmd: String) {
         Scheduler().apply {
             schedule(cronString) { Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd) }
-            val descriptor: CronDescriptor = CronDescriptor.instance(Locale.UK)
-            val parser = CronParser(CronDefinitionBuilder.instanceDefinitionFor(QUARTZ))
-            val description: String = descriptor.describe(parser.parse(cronString))
-            logger.info("[$description]: $cmd")
+//            val descriptor: CronDescriptor = CronDescriptor.instance(Locale.KOREAN)
+//            val parser = CronParser(CronDefinitionBuilder.instanceDefinitionFor(QUARTZ))
+//            val description: String = descriptor.describe(parser.parse(cronString))
+//            logger.info("[$description]: $cmd")
             start()
             schedulers.add(this)
         }

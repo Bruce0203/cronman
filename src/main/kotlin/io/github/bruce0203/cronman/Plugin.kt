@@ -1,9 +1,15 @@
 package io.github.bruce0203.cronman
 
-import it.sauronsoftware.cron4j.Scheduler;
+import com.cronutils.model.CronType.QUARTZ
+import com.cronutils.descriptor.CronDescriptor
+import com.cronutils.model.definition.CronDefinitionBuilder
+import com.cronutils.parser.CronParser
+import it.sauronsoftware.cron4j.Scheduler
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
+import java.util.*
 
+@Suppress("unused")
 class Plugin : JavaPlugin() {
 
     val schedulers = ArrayList<Scheduler>()
@@ -12,9 +18,7 @@ class Plugin : JavaPlugin() {
         loadDefaultConfig()
         config.getKeys(false).forEach { key ->
             val cmd = config.getString(key)!!
-            registerScheduler(key) {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd)
-            }
+            registerScheduler(key, cmd)
         }
     }
 
@@ -23,9 +27,13 @@ class Plugin : JavaPlugin() {
         saveDefaultConfig()
     }
 
-    private fun registerScheduler(cronString: String, exec: Runnable) {
+    private fun registerScheduler(cronString: String, cmd: String) {
         Scheduler().apply {
-            schedule(cronString, exec)
+            schedule(cronString) { Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd) }
+            val descriptor: CronDescriptor = CronDescriptor.instance(Locale.UK)
+            val parser = CronParser(CronDefinitionBuilder.instanceDefinitionFor(QUARTZ))
+            val description: String = descriptor.describe(parser.parse(cronString))
+            logger.info("[$description]: $cmd")
             start()
         }
     }

@@ -30,6 +30,8 @@ dependencies {
     api(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
 
+    api("com.cronutils:cron-utils:9.2.0")
+
     compileOnly("org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT")
     compileOnly("org.spigotmc:spigot:1.18.2-R0.1-SNAPSHOT")
 
